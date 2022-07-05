@@ -230,7 +230,7 @@ func (h *UserHandler) GetUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, _helper.ResponseSuccesWithData("success", _responseUser.FromCore(result)))
 }
 
-func (h *UserHandler) DeleteDataaUser(c echo.Context) error {
+func (h *UserHandler) DeleteDataUser(c echo.Context) error {
 	idTok, errDel := middlewares.ExtractToken(c)
 	if errDel != nil {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("invalid token"))
