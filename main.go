@@ -14,5 +14,5 @@ func main() {
 	presenter := factory.InitFactory(dbConn)
 	e := routes.New(presenter)
 	middlewares.LogMiddleware(e)
-	e.Logger.Fatal(e.Start(":5000"))
+	e.Logger.Fatal(e.Start(":80"))
 }
