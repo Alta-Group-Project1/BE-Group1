@@ -20,6 +20,11 @@ func (uc *eventUsecase) GetAllEvent(limit, offset int) (resp []events.Core, err 
 	return resp, err
 }
 
+func (uc *eventUsecase) GetDetailEvent(idEvent int) (resp events.Core, err error) {
+	resp, err = uc.eventData.SelectEvent(idEvent)
+	return resp, err
+}
+
 func (uc *eventUsecase) InsertNewEvent(input events.Core) (row int, err error) {
 	if input.EventName == "" || input.DateStart == "" || input.DateFinish == "" || input.StartAt == "" || input.FinishAt == "" || input.User.ID == 0 || input.Price == 0 || input.Capacity == 0 {
 		return -1, errors.New("all input data must be filled")
