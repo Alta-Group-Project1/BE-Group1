@@ -41,3 +41,8 @@ func (uc *userUsecase) SelectUser(id int) (resp users.Core, err error) {
 	resp, err = uc.userData.GetUser(id)
 	return resp, err
 }
+
+func (uc *userUsecase) DeleteUser(id int) (row int, err error) {
+	row, err = uc.userData.DeleteUser(id)
+	return row, err
+}
