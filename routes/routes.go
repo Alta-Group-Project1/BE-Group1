@@ -18,5 +18,9 @@ func New(presenter factory.Presenter) *echo.Echo {
 	e.POST("users", presenter.UserPresenter.AddUser)
 	e.POST("login", presenter.UserPresenter.Login)
 
+	// Comments
+	e.POST("/comments/:idEvent", presenter.UserPresenter.AddUser)
+	e.GET("/comments/:idEvent", presenter.UserPresenter.Login)
+
 	return e
 }
