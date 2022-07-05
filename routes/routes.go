@@ -20,6 +20,7 @@ func New(presenter factory.Presenter) *echo.Echo {
 	e.POST("login", presenter.UserPresenter.Login)
 	e.PUT("users/:id", presenter.UserPresenter.EditData, middlewares.JWTMiddleware())
 	e.GET("users/:id", presenter.UserPresenter.GetUser, middlewares.JWTMiddleware())
+	e.DELETE("users/:id", presenter.UserPresenter.DeleteDataaUser, middlewares.JWTMiddleware())
 
 	e.GET("events", presenter.EventPresenter.GetAllEvent)
 

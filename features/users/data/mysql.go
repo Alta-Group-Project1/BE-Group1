@@ -78,3 +78,15 @@ func (repo *mysqlUserRepository) GetUser(id int) (data users.Core, err error) {
 	}
 	return userData.toCore(), nil
 }
+
+func (repo *mysqlUserRepository) DeleteUser(data int) (row int, err error) {
+	var dataUsers User
+	result := repo.db.Delete(&dataUsers, data)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	if result.RowsAffected != 1 {
+		return 0, fmt.Errorf("failed to delete user")
+	}
+	return int(result.RowsAffected), nil
+}
