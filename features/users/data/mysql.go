@@ -68,3 +68,13 @@ func (repo *mysqlUserRepository) PutDataUser(id int, data users.Core) (int, erro
 	}
 	return int(result.RowsAffected), nil
 }
+
+func (repo *mysqlUserRepository) GetUser(id int) (data users.Core, err error) {
+	var userData User
+
+	result := repo.db.First(&userData, id)
+	if result.Error != nil {
+		return users.Core{}, result.Error
+	}
+	return userData.toCore(), nil
+}
