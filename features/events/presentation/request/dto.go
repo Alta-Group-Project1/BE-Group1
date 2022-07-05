@@ -13,7 +13,7 @@ type Event struct {
 	Capacity    int    `json:"capacity" form:"capacity"`
 	Description string `json:"description" form:"description"`
 	ImageURL    string `json:"image_url" form:"image_url"`
-	UserID      uint   `json:"user_id" form:"user_id"`
+	UserID      int    `json:"user_id" form:"user_id"`
 }
 
 func ToCore(req Event) events.Core {
@@ -29,7 +29,7 @@ func ToCore(req Event) events.Core {
 		Description: req.Description,
 		ImageURL:    req.ImageURL,
 		User: events.User{
-			ID: int(req.UserID),
+			ID: req.UserID,
 		},
 	}
 }

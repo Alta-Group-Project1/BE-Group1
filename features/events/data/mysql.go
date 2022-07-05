@@ -27,7 +27,7 @@ func (repo *mysqlEventRepository) SelectAllEvent(limit, offset int) ([]events.Co
 
 func (repo *mysqlEventRepository) InsertEvent(data events.Core) (int, error) {
 	var dataEvent = fromCore(data)
-	result := repo.db.Create(dataEvent)
+	result := repo.db.Create(&dataEvent)
 	if result.Error != nil {
 		return 0, result.Error
 	}

@@ -6,6 +6,7 @@ import (
 	_responseEvent "altaproject3/features/events/presentation/response"
 	helper "altaproject3/helper"
 	"altaproject3/middlewares"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -55,6 +56,11 @@ func (h *EventHandler) InsertNewEvent(c echo.Context) error {
 	capacity := c.FormValue("capacity")
 	capacityInt, _ := strconv.Atoi(capacity)
 
+	url, report, err := helper.AddImageEvent(c)
+	if err != nil {
+		return c.JSON(report["code"].(int), helper.ResponseFailed(fmt.Sprintf("%s", report["message"])))
+	}
+
 	var newEvent = _requestEvent.Event{
 		EventName:   eventName,
 		DateStart:   dateStart,
@@ -64,8 +70,9 @@ func (h *EventHandler) InsertNewEvent(c echo.Context) error {
 		Price:       priceInt,
 		Address:     address,
 		Description: description,
-		UserID:      uint(idToken),
+		UserID:      idToken,
 		Capacity:    capacityInt,
+		ImageURL:    url,
 	}
 
 	dataEvent := _requestEvent.ToCore(newEvent)
@@ -74,7 +81,7 @@ func (h *EventHandler) InsertNewEvent(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, helper.ResponseFailed(err.Error()))
 	}
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, helper.ResponseFailed("failed to insert book"))
+		return c.JSON(http.StatusInternalServerError, helper.ResponseFailed("failed to insert event"))
 	}
-	return c.JSON(http.StatusOK, helper.ResponseSuccesNoData("success to insert book"))
+	return c.JSON(http.StatusOK, helper.ResponseSuccesNoData("success to insert event"))
 }

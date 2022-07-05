@@ -21,9 +21,7 @@ func (uc *eventUsecase) GetAllEvent(limit, offset int) (resp []events.Core, err 
 }
 
 func (uc *eventUsecase) InsertNewEvent(input events.Core) (row int, err error) {
-	if input.EventName == "" || input.DateStart == "" || input.DateFinish == "" || input.StartAt == "" || input.FinishAt == "" {
-		return -1, errors.New("all input data must be filled")
-	} else if input.User.ID == 0 || input.Price == 0 || input.Capacity == 0 {
+	if input.EventName == "" || input.DateStart == "" || input.DateFinish == "" || input.StartAt == "" || input.FinishAt == "" || input.User.ID == 0 || input.Price == 0 || input.Capacity == 0 {
 		return -1, errors.New("all input data must be filled")
 	}
 	if input.ImageURL == "" {

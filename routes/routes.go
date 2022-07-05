@@ -23,6 +23,7 @@ func New(presenter factory.Presenter) *echo.Echo {
 	e.DELETE("users/:id", presenter.UserPresenter.DeleteDataUser, middlewares.JWTMiddleware())
 
 	e.GET("events", presenter.EventPresenter.GetAllEvent)
+	e.POST("events", presenter.EventPresenter.InsertNewEvent, middlewares.JWTMiddleware())
 
 	return e
 }
