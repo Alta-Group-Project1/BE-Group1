@@ -24,9 +24,6 @@ func (uc *eventUsecase) InsertNewEvent(input events.Core) (row int, err error) {
 	if input.EventName == "" || input.DateStart == "" || input.DateFinish == "" || input.StartAt == "" || input.FinishAt == "" || input.User.ID == 0 || input.Price == 0 || input.Capacity == 0 {
 		return -1, errors.New("all input data must be filled")
 	}
-	if input.ImageURL == "" {
-		input.ImageURL = "https://storage.googleapis.com/bucket-project-3/default_event.jpg"
-	}
 	row, err = uc.eventData.InsertEvent(input)
 	return row, err
 }

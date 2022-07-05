@@ -14,15 +14,15 @@ import (
 
 func AddImageEvent(c echo.Context) (link string, message map[string]interface{}, err error) {
 	file, err := c.FormFile("file")
+	bucket := os.Getenv("DB_BUCKET")
 	if err != nil {
-		url := "https://storage.googleapis.com/bucket-project-3/default_event.png"
+		url := "https://storage.googleapis.com/" + bucket + "/default_event.png"
 		return url, map[string]interface{}{
 			"message": "Success create url",
 			"code":    200,
 		}, nil
 	} else {
 		var storageClient *storage.Client
-		bucket := os.Getenv("DB_BUCKET")
 		ctx := appengine.NewContext(c.Request())
 		storageClient, errStorage := storage.NewClient(ctx, option.WithCredentialsFile("keys.json"))
 		if errStorage != nil {
