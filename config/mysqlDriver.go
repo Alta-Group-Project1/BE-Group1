@@ -1,6 +1,7 @@
 package config
 
 import (
+	_mAttendees "altaproject3/features/attendees/data"
 	_mComments "altaproject3/features/comments/data"
 	_mEvents "altaproject3/features/events/data"
 	_mUsers "altaproject3/features/users/data"
@@ -37,4 +38,5 @@ func InitMigrate(db *gorm.DB) {
 	db.AutoMigrate(&_mUsers.User{})
 	db.AutoMigrate(&_mEvents.Event{})
 	db.AutoMigrate(&_mComments.Comment{})
+	db.AutoMigrate(&_mAttendees.Attendee{})
 }
