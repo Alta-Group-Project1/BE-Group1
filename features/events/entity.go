@@ -29,6 +29,7 @@ type Business interface {
 	GetDetailEvent(idEvent int) (data Core, err error)
 	InsertNewEvent(data Core) (row int, err error)
 	DeleteEvent(idEvent int) (row int, err error)
+	UpdateEvent(idEvent int, data Core) (row int, err error)
 }
 
 type Data interface {
@@ -36,4 +37,5 @@ type Data interface {
 	SelectEvent(idEvent int) (data Core, err error)
 	InsertEvent(data Core) (row int, err error)
 	DeleteEvent(idEvent int) (row int, err error)
+	UpdateEvent(idEvent int, data Core) (row int, err error)
 }

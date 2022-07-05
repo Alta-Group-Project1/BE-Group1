@@ -53,3 +53,15 @@ func (repo *mysqlEventRepository) DeleteEvent(idEvent int) (int, error) {
 	}
 	return int(result.RowsAffected), nil
 }
+
+func (repo *mysqlEventRepository) UpdateEvent(idEvent int, data events.Core) (int, error) {
+	var dataEvent = fromCore(data)
+	result := repo.db.Model(&Event{}).Where("id = ?", idEvent).Updates(&dataEvent)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return 0, result.Error
+	}
+	return int(result.RowsAffected), nil
+}
