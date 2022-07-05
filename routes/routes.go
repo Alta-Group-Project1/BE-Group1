@@ -2,6 +2,7 @@ package routes
 
 import (
 	"altaproject3/factory"
+	"altaproject3/middlewares"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -17,7 +18,8 @@ func New(presenter factory.Presenter) *echo.Echo {
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.POST("users", presenter.UserPresenter.AddUser)
 	e.POST("login", presenter.UserPresenter.Login)
-	e.PUT("users/:id", presenter.UserPresenter.EditData)
+	e.PUT("users/:id", presenter.UserPresenter.EditData, middlewares.JWTMiddleware())
+	e.GET("users/:id", presenter.UserPresenter.GetUser, middlewares.JWTMiddleware())
 
 	e.GET("events", presenter.EventPresenter.GetAllEvent)
 
