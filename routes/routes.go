@@ -17,6 +17,9 @@ func New(presenter factory.Presenter) *echo.Echo {
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.POST("users", presenter.UserPresenter.AddUser)
 	e.POST("login", presenter.UserPresenter.Login)
+	e.PUT("users/:id", presenter.UserPresenter.EditData)
+
+	e.GET("events", presenter.EventPresenter.GetAllEvent)
 
 	// Comments
 	e.POST("/comments/:idEvent", presenter.UserPresenter.AddUser)
