@@ -25,6 +25,15 @@ func (repo *mysqlEventRepository) SelectAllEvent(limit, offset int) ([]events.Co
 	return toCoreList(dataEvents), nil
 }
 
+func (repo *mysqlEventRepository) SelectEvent(idEvent int) (events.Core, error) {
+	var dataEvent Event
+	result := repo.db.Preload("User").Where("id = ?", idEvent).First(&dataEvent)
+	if result.Error != nil {
+		return events.Core{}, result.Error
+	}
+	return dataEvent.toCore(), nil
+}
+
 func (repo *mysqlEventRepository) InsertEvent(data events.Core) (int, error) {
 	var dataEvent = fromCore(data)
 	result := repo.db.Create(&dataEvent)

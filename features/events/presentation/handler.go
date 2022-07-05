@@ -35,6 +35,19 @@ func (h *EventHandler) GetAllEvent(c echo.Context) error {
 	return c.JSON(http.StatusOK, helper.ResponseSuccesWithData("success to get all data", _responseEvent.FromCoreList(result)))
 }
 
+func (h *EventHandler) GetDetailEvent(c echo.Context) error {
+	idEvent := c.Param("idEvent")
+	idEventInt, errId := strconv.Atoi(idEvent)
+	if errId != nil {
+		return c.JSON(http.StatusBadRequest, helper.ResponseFailed("failed to recognize id"))
+	}
+	result, err := h.eventBusiness.GetDetailEvent(idEventInt)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.ResponseFailed("failed to get data"))
+	}
+	return c.JSON(http.StatusOK, helper.ResponseSuccesWithData("success to get data", _responseEvent.FromCore(result)))
+}
+
 func (h *EventHandler) InsertNewEvent(c echo.Context) error {
 	idToken, errToken := middlewares.ExtractToken(c)
 	if errToken != nil {
