@@ -25,9 +25,11 @@ type User struct {
 }
 
 type Business interface {
-	GetAllEvent(limit, offset uint) (data []Core, err error)
+	GetAllEvent(limit, offset int) (data []Core, err error)
+	InsertNewEvent(data Core) (row int, err error)
 }
 
 type Data interface {
-	SelectAllEvent(limit, offset uint) (data []Core, err error)
+	SelectAllEvent(limit, offset int) (data []Core, err error)
+	InsertEvent(data Core) (row int, err error)
 }
