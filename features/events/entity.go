@@ -26,10 +26,16 @@ type User struct {
 
 type Business interface {
 	GetAllEvent(limit, offset int) (data []Core, err error)
+	GetDetailEvent(idEvent int) (data Core, err error)
 	InsertNewEvent(data Core) (row int, err error)
+	DeleteEvent(idEvent int) (row int, err error)
+	UpdateEvent(idEvent int, data Core) (row int, err error)
 }
 
 type Data interface {
 	SelectAllEvent(limit, offset int) (data []Core, err error)
+	SelectEvent(idEvent int) (data Core, err error)
 	InsertEvent(data Core) (row int, err error)
+	DeleteEvent(idEvent int) (row int, err error)
+	UpdateEvent(idEvent int, data Core) (row int, err error)
 }
