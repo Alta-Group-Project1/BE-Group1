@@ -28,3 +28,11 @@ func (uc *userUsecase) LoginUser(email string, password string) (userName string
 	userName, token, e = uc.userData.AuthUser(email, password)
 	return userName, token, e
 }
+
+func (uc *userUsecase) UpdateDataUser(id int, data users.Core) (row int, err error) {
+	if data.FullName == "" || data.UserName == "" || data.Password == "" || data.Email == "" || data.PhoneNumber == "" || data.Address == "" || data.ImageURL == "" {
+		return -1, errors.New("all input data must be filled")
+	}
+	row, err = uc.userData.PutDataUser(id, data)
+	return row, err
+}

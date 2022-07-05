@@ -54,3 +54,17 @@ func (repo *mysqlUserRepository) AuthUser(email string, password string) (userNa
 	}
 	return token, userData.UserName, nil
 }
+
+func (repo *mysqlUserRepository) PutDataUser(id int, data users.Core) (int, error) {
+	passwordHash, _ := _bcrypt.HashPassword(data.Password)
+	data.Password = passwordHash
+	var update = fromCore(data)
+	result := repo.db.Model(&User{}).Where("id = ?", id).Updates(&update)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return 0, fmt.Errorf("failed to update data")
+	}
+	return int(result.RowsAffected), nil
+}
