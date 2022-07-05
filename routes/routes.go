@@ -18,5 +18,7 @@ func New(presenter factory.Presenter) *echo.Echo {
 	e.POST("users", presenter.UserPresenter.AddUser)
 	e.POST("login", presenter.UserPresenter.Login)
 
+	e.GET("events", presenter.EventPresenter.GetAllEvent)
+
 	return e
 }
