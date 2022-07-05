@@ -4,7 +4,6 @@ import (
 	"altaproject3/features/users"
 	_requestUser "altaproject3/features/users/presentation/request"
 	_responseUser "altaproject3/features/users/presentation/response"
-	"altaproject3/helper"
 	_helper "altaproject3/helper"
 	"altaproject3/middlewares"
 	"fmt"
@@ -44,9 +43,9 @@ func (h *UserHandler) AddUser(c echo.Context) error {
 	phoneNumber := c.FormValue("phone_number")
 	address := c.FormValue("address")
 
-	link, report, err := helper.AddImageUser(c)
+	link, report, err := _helper.AddImageUser(c)
 	if err != nil {
-		return c.JSON(report["code"].(int), helper.ResponseFailed(fmt.Sprintf("%s", report["message"])))
+		return c.JSON(report["code"].(int), _helper.ResponseFailed(fmt.Sprintf("%s", report["message"])))
 	}
 
 	var newUser = _requestUser.User{

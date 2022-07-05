@@ -29,6 +29,7 @@ func (repo *mysqlUserRepository) PostUser(input users.Core) (row int, err error)
 		Email:       input.Email,
 		PhoneNumber: input.PhoneNumber,
 		Address:     input.Address,
+		ImageURL:    input.ImageURL,
 	}
 	tx := repo.db.Create(&user)
 	if tx.Error != nil {
