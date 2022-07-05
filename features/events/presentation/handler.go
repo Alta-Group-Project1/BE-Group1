@@ -98,3 +98,30 @@ func (h *EventHandler) InsertNewEvent(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, helper.ResponseSuccesNoData("success to insert event"))
 }
+
+func (h *EventHandler) DeleteEvent(c echo.Context) error {
+	idToken, errToken := middlewares.ExtractToken(c)
+	if errToken != nil {
+		c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": "invalid token",
+		})
+	}
+	if idToken == 0 {
+		return c.JSON(http.StatusUnauthorized, map[string]interface{}{
+			"message": "unauthorized",
+		})
+	}
+	idEvent := c.Param("idEvent")
+	idEventInt, errId := strconv.Atoi(idEvent)
+	if errId != nil {
+		return c.JSON(http.StatusBadRequest, helper.ResponseFailed("failed to recognize id"))
+	}
+	result, err := h.eventBusiness.DeleteEvent(idEventInt)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, helper.ResponseFailed("failed to delete event"))
+	}
+	if result == 0 {
+		return c.JSON(http.StatusInternalServerError, helper.ResponseFailed("failed to delete event"))
+	}
+	return c.JSON(http.StatusOK, helper.ResponseSuccesNoData("success to delete event"))
+}
