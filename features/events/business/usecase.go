@@ -32,3 +32,8 @@ func (uc *eventUsecase) InsertNewEvent(input events.Core) (row int, err error) {
 	row, err = uc.eventData.InsertEvent(input)
 	return row, err
 }
+
+func (uc *eventUsecase) DeleteEvent(idEvent int) (row int, err error) {
+	row, err = uc.eventData.DeleteEvent(idEvent)
+	return row, err
+}
