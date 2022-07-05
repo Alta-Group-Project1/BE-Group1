@@ -4,8 +4,10 @@ import (
 	"altaproject3/features/users"
 	_requestUser "altaproject3/features/users/presentation/request"
 	_responseUser "altaproject3/features/users/presentation/response"
+	"altaproject3/helper"
 	_helper "altaproject3/helper"
 	"altaproject3/middlewares"
+	"fmt"
 	"os"
 
 	"io"
@@ -42,46 +44,9 @@ func (h *UserHandler) AddUser(c echo.Context) error {
 	phoneNumber := c.FormValue("phone_number")
 	address := c.FormValue("address")
 
-	var storageClient *storage.Client
-	bucket := os.Getenv("DB_BUCKET")
-	ctx := appengine.NewContext(c.Request())
-	storageClient, err := storage.NewClient(ctx, option.WithCredentialsFile("keys.json"))
+	link, report, err := helper.AddImageUser(c)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("misssing credentials file"))
-	}
-	file, err := c.FormFile("https://storage.googleapis.com/bucket-project-3/default_profile.png")
-	if err != nil {
-		return err
-	}
-	if file.Size > 1024*1024 {
-		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("The uploaded image is too big. Please use an image less than 1MB in size"))
-	}
-	src, err := file.Open()
-	if err != nil {
-		return err
-	}
-	defer src.Close()
-	if file.Filename[len(file.Filename)-3:] != "jpg" && file.Filename[len(file.Filename)-3:] != "png" {
-		if file.Filename[len(file.Filename)-4:] != "jpeg" {
-			return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("The provided file format is not allowed. Please upload a JPG or JPEG or PNG image"))
-		}
-	}
-
-	sw := storageClient.Bucket(bucket).Object(file.Filename).NewWriter(ctx)
-
-	if _, err := io.Copy(sw, src); err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"message": err,
-		})
-	}
-	if err := sw.Close(); err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"message": err,
-		})
-	}
-	u, err := url.Parse("https://storage.googleapis.com/" + bucket + "/" + sw.Attrs().Name)
-	if err != nil {
-		return err
+		return c.JSON(report["code"].(int), helper.ResponseFailed(fmt.Sprintf("%s", report["message"])))
 	}
 
 	var newUser = _requestUser.User{
@@ -91,8 +56,9 @@ func (h *UserHandler) AddUser(c echo.Context) error {
 		Password:    password,
 		PhoneNumber: phoneNumber,
 		Address:     address,
-		ImageURL:    u.String(),
+		ImageURL:    link,
 	}
+
 	dataUser := _requestUser.ToCore(newUser)
 	row, err := h.userBusiness.InsertUser(dataUser)
 	if row == -1 {
