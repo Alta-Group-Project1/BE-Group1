@@ -125,3 +125,59 @@ func (h *EventHandler) DeleteEvent(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, helper.ResponseSuccesNoData("success to delete event"))
 }
+
+func (h *EventHandler) UpdateEvent(c echo.Context) error {
+	idToken, errToken := middlewares.ExtractToken(c)
+	if errToken != nil {
+		c.JSON(http.StatusBadRequest, helper.ResponseFailed("invalid token"))
+	}
+	if idToken == 0 {
+		return c.JSON(http.StatusUnauthorized, helper.ResponseFailed("unauthorized"))
+	}
+
+	idEvent := c.Param("idEvent")
+	idEventInt, errId := strconv.Atoi(idEvent)
+	if errId != nil {
+		return c.JSON(http.StatusBadRequest, helper.ResponseFailed("failed to recognize id"))
+	}
+
+	eventName := c.FormValue("event_name")
+	dateStart := c.FormValue("date_start")
+	dateFinish := c.FormValue("date_finish")
+	startAt := c.FormValue("start_at")
+	finishAt := c.FormValue("finish_at")
+	price := c.FormValue("price")
+	priceInt, _ := strconv.Atoi(price)
+	address := c.FormValue("address")
+	description := c.FormValue("description")
+	capacity := c.FormValue("capacity")
+	capacityInt, _ := strconv.Atoi(capacity)
+
+	url, report, err := helper.AddImageEvent(c)
+	if err != nil {
+		return c.JSON(report["code"].(int), helper.ResponseFailed(fmt.Sprintf("%s", report["message"])))
+	}
+
+	var updateEvent = _requestEvent.Event{
+		EventName:   eventName,
+		DateStart:   dateStart,
+		DateFinish:  dateFinish,
+		StartAt:     startAt,
+		FinishAt:    finishAt,
+		Price:       priceInt,
+		Address:     address,
+		Description: description,
+		UserID:      idToken,
+		Capacity:    capacityInt,
+		ImageURL:    url,
+	}
+
+	result, err := h.eventBusiness.UpdateEvent(idEventInt, _requestEvent.ToCore(updateEvent))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, helper.ResponseFailed("failed to update event"))
+	}
+	if result == 0 {
+		return c.JSON(http.StatusInternalServerError, helper.ResponseFailed("failed to update event"))
+	}
+	return c.JSON(http.StatusOK, helper.ResponseSuccesNoData("success to update event"))
+}

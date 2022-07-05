@@ -37,3 +37,11 @@ func (uc *eventUsecase) DeleteEvent(idEvent int) (row int, err error) {
 	row, err = uc.eventData.DeleteEvent(idEvent)
 	return row, err
 }
+
+func (uc *eventUsecase) UpdateEvent(idEvent int, input events.Core) (row int, err error) {
+	if input.EventName == "" || input.DateStart == "" || input.DateFinish == "" || input.StartAt == "" || input.FinishAt == "" || input.User.ID == 0 || input.Price == 0 || input.Capacity == 0 {
+		return -1, errors.New("all input data must be filled")
+	}
+	row, err = uc.eventData.UpdateEvent(idEvent, input)
+	return row, err
+}
