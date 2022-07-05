@@ -36,3 +36,8 @@ func (uc *userUsecase) UpdateDataUser(id int, data users.Core) (row int, err err
 	row, err = uc.userData.PutDataUser(id, data)
 	return row, err
 }
+
+func (uc *userUsecase) SelectUser(id int) (resp users.Core, err error) {
+	resp, err = uc.userData.GetUser(id)
+	return resp, err
+}

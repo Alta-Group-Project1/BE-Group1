@@ -3,6 +3,7 @@ package presentation
 import (
 	"altaproject3/features/users"
 	_requestUser "altaproject3/features/users/presentation/request"
+	_responseUser "altaproject3/features/users/presentation/response"
 	_helper "altaproject3/helper"
 	"altaproject3/middlewares"
 	"os"
@@ -204,4 +205,27 @@ func (h *UserHandler) EditData(c echo.Context) error {
 		})
 	}
 	return c.JSON(http.StatusOK, _helper.ResponseSuccesNoData("success update data"))
+}
+
+func (h *UserHandler) GetUser(c echo.Context) error {
+	idToken, errToken := middlewares.ExtractToken(c)
+	if errToken != nil {
+		c.JSON(http.StatusBadRequest, _helper.ResponseFailed("invalid token"))
+	}
+	id := c.Param("id")
+	idnya, errId := strconv.Atoi(id)
+	if errId != nil {
+		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id not recognize"))
+	}
+	if idToken != idnya {
+		return c.JSON(http.StatusUnauthorized, _helper.ResponseFailed("unauthorized"))
+	}
+	if errId != nil {
+		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("failed to recognized ID"))
+	}
+	result, err := h.userBusiness.SelectUser(idnya)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed to get data user"))
+	}
+	return c.JSON(http.StatusOK, _helper.ResponseSuccesWithData("success", _responseUser.FromCore(result)))
 }
