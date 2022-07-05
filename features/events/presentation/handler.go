@@ -121,7 +121,7 @@ func (h *EventHandler) DeleteEvent(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, helper.ResponseFailed("failed to delete event"))
 	}
 	if result == 0 {
-		return c.JSON(http.StatusInternalServerError, helper.ResponseFailed(err.Error()))
+		return c.JSON(http.StatusInternalServerError, helper.ResponseFailed("failed to delete event"))
 	}
 	return c.JSON(http.StatusOK, helper.ResponseSuccesNoData("success to delete event"))
 }

@@ -2,7 +2,6 @@ package data
 
 import (
 	"altaproject3/features/events"
-	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -50,7 +49,7 @@ func (repo *mysqlEventRepository) DeleteEvent(idEvent int) (int, error) {
 		return 0, result.Error
 	}
 	if result.RowsAffected == 0 {
-		return 0, fmt.Errorf("event to be deleted was not found")
+		return 0, result.Error
 	}
 	return int(result.RowsAffected), nil
 }
