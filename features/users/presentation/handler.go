@@ -7,17 +7,11 @@ import (
 	_helper "altaproject3/helper"
 	"altaproject3/middlewares"
 	"fmt"
-	"os"
 
-	"io"
 	"net/http"
-	"net/url"
 	"strconv"
 
-	"cloud.google.com/go/storage"
 	"github.com/labstack/echo/v4"
-	"google.golang.org/api/option"
-	"google.golang.org/appengine"
 )
 
 type UserHandler struct {
@@ -96,7 +90,7 @@ func (h *UserHandler) EditData(c echo.Context) error {
 	if errId != nil {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("failed to recognized ID"))
 	}
-	if idToken != idUser {
+	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, _helper.ResponseFailed("unauthorized"))
 	}
 	fullName := c.FormValue("full_name")
@@ -106,46 +100,51 @@ func (h *UserHandler) EditData(c echo.Context) error {
 	phoneNumber := c.FormValue("phone_number")
 	address := c.FormValue("address")
 
-	var storageClient *storage.Client
-	bucket := os.Getenv("DB_BUCKET")
-	ctx := appengine.NewContext(c.Request())
-	storageClient, err := storage.NewClient(ctx, option.WithCredentialsFile("keys.json"))
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("misssing credentials file"))
-	}
-	file, err := c.FormFile("image_url")
-	if err != nil {
-		return err
-	}
-	if file.Size > 1024*1024 {
-		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("The uploaded image is too big. Please use an image less than 1MB in size"))
-	}
-	src, err := file.Open()
-	if err != nil {
-		return err
-	}
-	defer src.Close()
-	if file.Filename[len(file.Filename)-3:] != "jpg" && file.Filename[len(file.Filename)-3:] != "png" {
-		if file.Filename[len(file.Filename)-4:] != "jpeg" {
-			return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("The provided file format is not allowed. Please upload a JPG or JPEG or PNG image"))
-		}
-	}
+	// var storageClient *storage.Client
+	// bucket := os.Getenv("DB_BUCKET")
+	// ctx := appengine.NewContext(c.Request())
+	// storageClient, err := storage.NewClient(ctx, option.WithCredentialsFile("keys.json"))
+	// if err != nil {
+	// 	return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("misssing credentials file"))
+	// }
+	// file, err := c.FormFile("image_url")
+	// if err != nil {
+	// 	return err
+	// }
+	// if file.Size > 1024*1024 {
+	// 	return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("The uploaded image is too big. Please use an image less than 1MB in size"))
+	// }
+	// src, err := file.Open()
+	// if err != nil {
+	// 	return err
+	// }
+	// defer src.Close()
+	// if file.Filename[len(file.Filename)-3:] != "jpg" && file.Filename[len(file.Filename)-3:] != "png" {
+	// 	if file.Filename[len(file.Filename)-4:] != "jpeg" {
+	// 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("The provided file format is not allowed. Please upload a JPG or JPEG or PNG image"))
+	// 	}
+	// }
 
-	sw := storageClient.Bucket(bucket).Object(file.Filename).NewWriter(ctx)
+	// sw := storageClient.Bucket(bucket).Object(file.Filename).NewWriter(ctx)
 
-	if _, err := io.Copy(sw, src); err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"message": err,
-		})
-	}
-	if err := sw.Close(); err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"message": err,
-		})
-	}
-	u, err := url.Parse("https://storage.googleapis.com/" + bucket + "/" + sw.Attrs().Name)
+	// if _, err := io.Copy(sw, src); err != nil {
+	// 	return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+	// 		"message": err,
+	// 	})
+	// }
+	// if err := sw.Close(); err != nil {
+	// 	return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+	// 		"message": err,
+	// 	})
+	// }
+	// u, err := url.Parse("https://storage.googleapis.com/" + bucket + "/" + sw.Attrs().Name)
+	// if err != nil {
+	// 	return err
+	// }
+
+	link, report, err := _helper.AddImageUser(c)
 	if err != nil {
-		return err
+		return c.JSON(report["code"].(int), _helper.ResponseFailed(fmt.Sprintf("%s", report["message"])))
 	}
 	var user = _requestUser.User{
 		FullName:    fullName,
@@ -154,7 +153,7 @@ func (h *UserHandler) EditData(c echo.Context) error {
 		Password:    password,
 		PhoneNumber: phoneNumber,
 		Address:     address,
-		ImageURL:    u.String(),
+		ImageURL:    link,
 	}
 
 	result, err := h.userBusiness.UpdateDataUser(idUser, _requestUser.ToCore(user))
@@ -182,7 +181,7 @@ func (h *UserHandler) GetUser(c echo.Context) error {
 	if errId != nil {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id not recognize"))
 	}
-	if idToken != idnya {
+	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, _helper.ResponseFailed("unauthorized"))
 	}
 	if errId != nil {
@@ -205,7 +204,7 @@ func (h *UserHandler) DeleteDataUser(c echo.Context) error {
 	if errId != nil {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id not recognize"))
 	}
-	if idTok != idDel {
+	if idTok == 0 {
 		return c.JSON(http.StatusUnauthorized, _helper.ResponseFailed("Unauthorized"))
 	}
 	_, err := h.userBusiness.DeleteUser(idDel)

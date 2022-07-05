@@ -1,6 +1,9 @@
 package factory
 
 import (
+	_attendeeBusiness "altaproject3/features/attendees/business"
+	_attendeeData "altaproject3/features/attendees/data"
+	_attendeePresentation "altaproject3/features/attendees/presentation"
 	_commentBusiness "altaproject3/features/comments/business"
 	_commentData "altaproject3/features/comments/data"
 	_commentPresentation "altaproject3/features/comments/presentation"
@@ -15,9 +18,10 @@ import (
 )
 
 type Presenter struct {
-	UserPresenter    *_userPresentation.UserHandler
-	EventPresenter   *_eventPresentation.EventHandler
-	CommentPresenter *_commentPresentation.CommentHandler
+	UserPresenter     *_userPresentation.UserHandler
+	EventPresenter    *_eventPresentation.EventHandler
+	CommentPresenter  *_commentPresentation.CommentHandler
+	AttendeePresenter *_attendeePresentation.AttendeeHandler
 }
 
 func InitFactory(dbConn *gorm.DB) Presenter {
@@ -30,9 +34,13 @@ func InitFactory(dbConn *gorm.DB) Presenter {
 	commentData := _commentData.NewCommentRepository(dbConn)
 	commentBusiness := _commentBusiness.NewCommentBusiness(commentData)
 	commentPresentation := _commentPresentation.NewCommentHandler(commentBusiness)
+	attendeeData := _attendeeData.NewAttendeeRepository(dbConn)
+	attendeeBusiness := _attendeeBusiness.NewAttendeeBusiness(attendeeData)
+	attendeePresentation := _attendeePresentation.NewAttendeeHandler(attendeeBusiness)
 	return Presenter{
-		UserPresenter:    UserPresentation,
-		EventPresenter:   eventPresentation,
-		CommentPresenter: commentPresentation,
+		UserPresenter:     UserPresentation,
+		EventPresenter:    eventPresentation,
+		CommentPresenter:  commentPresentation,
+		AttendeePresenter: attendeePresentation,
 	}
 }

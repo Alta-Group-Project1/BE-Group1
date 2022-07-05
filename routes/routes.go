@@ -29,5 +29,8 @@ func New(presenter factory.Presenter) *echo.Echo {
 	e.POST("/comments/:idEvent", presenter.CommentPresenter.AddComment, middlewares.JWTMiddleware())
 	e.GET("/comments/:idEvent", presenter.UserPresenter.Login)
 
+	// Attendees
+	e.POST("/attendees/:idEvent", presenter.AttendeePresenter.InsertAttendee)
+
 	return e
 }
