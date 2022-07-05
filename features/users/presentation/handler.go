@@ -229,3 +229,23 @@ func (h *UserHandler) GetUser(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, _helper.ResponseSuccesWithData("success", _responseUser.FromCore(result)))
 }
+
+func (h *UserHandler) DeleteDataUser(c echo.Context) error {
+	idTok, errDel := middlewares.ExtractToken(c)
+	if errDel != nil {
+		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("invalid token"))
+	}
+	id := c.Param("id")
+	idDel, errId := strconv.Atoi(id)
+	if errId != nil {
+		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id not recognize"))
+	}
+	if idTok != idDel {
+		return c.JSON(http.StatusUnauthorized, _helper.ResponseFailed("Unauthorized"))
+	}
+	_, err := h.userBusiness.DeleteUser(idDel)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed to delete user"))
+	}
+	return c.JSON(http.StatusOK, _helper.ResponseSuccesNoData("success to delete user"))
+}
