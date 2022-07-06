@@ -74,3 +74,12 @@ func (repo *mysqlEventRepository) SelectEventByUserId(idUser, limit, offset int)
 	}
 	return toCoreList(dataEvents), nil
 }
+
+func (repo *mysqlEventRepository) CountEventData() (int, error) {
+	var count int64
+	result := repo.db.Model(&Event{}).Count(&count)
+	if result.Error != nil {
+		return -1, result.Error
+	}
+	return int(count), nil
+}
