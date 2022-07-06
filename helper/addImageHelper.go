@@ -128,13 +128,13 @@ func AddImageUser(c echo.Context) (link string, message map[string]interface{}, 
 
 		if _, err := io.Copy(sw, src); err != nil {
 			return "", map[string]interface{}{
-				"message": err,
+				"message": fmt.Sprintf("Copy err: %s", err),
 				"code":    500,
 			}, err
 		}
 		if err := sw.Close(); err != nil {
 			return "", map[string]interface{}{
-				"message": err,
+				"message": fmt.Sprintf("Close err: %s", err),
 				"code":    500,
 			}, err
 		}
