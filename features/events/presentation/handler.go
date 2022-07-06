@@ -198,7 +198,7 @@ func (h *EventHandler) GeEventOwnByUser(c echo.Context) error {
 	offset := c.QueryParam("offset")
 	limitint, _ := strconv.Atoi(limit)
 	offsetint, _ := strconv.Atoi(offset)
-	result, err := h.eventBusiness.GeEventOwnByUser(idToken, limitint, offsetint)
+	result, err := h.eventBusiness.GetEventOwnByUser(idToken, limitint, offsetint)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ResponseFailed("failed to get all data"))
 	}

@@ -119,3 +119,30 @@ func TestGetDetailEvent(t *testing.T) {
 		assert.Equal(t, 0, result.ID)
 	})
 }
+
+func TestInsertNewEvent(t *testing.T) {
+
+}
+
+func TestDeleteEvent(t *testing.T) {
+	t.Run("Test Delete Event Success", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventData{})
+		result, err := eventBusiness.DeleteEvent(1)
+		assert.Nil(t, err)
+		assert.Equal(t, 1, result)
+	})
+	t.Run("Test Delete Event Failed", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		result, err := eventBusiness.DeleteEvent(1)
+		assert.NotNil(t, err)
+		assert.Equal(t, 0, result)
+	})
+}
+
+func TestUpdateEvent(t *testing.T) {
+
+}
+
+func TestGeEventOwnByUser(t *testing.T) {
+
+}

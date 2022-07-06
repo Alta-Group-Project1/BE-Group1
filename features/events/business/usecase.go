@@ -59,7 +59,7 @@ func (uc *eventUsecase) UpdateEvent(idEvent int, input events.Core) (row int, er
 	return row, err
 }
 
-func (uc *eventUsecase) GeEventOwnByUser(idUser, limit, offset int) (resp []events.Core, err error) {
+func (uc *eventUsecase) GetEventOwnByUser(idUser, limit, offset int) (resp []events.Core, err error) {
 	resp, err = uc.eventData.SelectEventByUserId(idUser, limit, offset)
 	return resp, err
 }
