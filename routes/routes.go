@@ -31,7 +31,7 @@ func New(presenter factory.Presenter) *echo.Echo {
 
 	// Comments
 	e.POST("/comments", presenter.CommentPresenter.AddComment, middlewares.JWTMiddleware())
-	e.GET("/comments/:idEvent", presenter.UserPresenter.Login)
+	e.GET("/comments/:idEvent", presenter.CommentPresenter.GetAllComment, middlewares.JWTMiddleware())
 
 	// Attendees
 	e.DELETE("attendees/:idAttendee", presenter.AttendeePresenter.DeleteDataAttendee, middlewares.JWTMiddleware())
