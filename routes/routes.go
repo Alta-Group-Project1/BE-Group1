@@ -24,7 +24,7 @@ func New(presenter factory.Presenter) *echo.Echo {
 
 	e.GET("events", presenter.EventPresenter.GetAllEvent)
 	e.GET("events/:idEvent", presenter.EventPresenter.GetDetailEvent)
-	e.GET("events", presenter.EventPresenter.GeEventOwnByUser, middlewares.JWTMiddleware())
+	e.GET("events/mylists", presenter.EventPresenter.GeEventOwnByUser, middlewares.JWTMiddleware())
 	e.POST("events", presenter.EventPresenter.InsertNewEvent, middlewares.JWTMiddleware())
 	e.DELETE("events/:idEvent", presenter.EventPresenter.DeleteEvent, middlewares.JWTMiddleware())
 	e.PUT("events/:idEvent", presenter.EventPresenter.UpdateEvent, middlewares.JWTMiddleware())
