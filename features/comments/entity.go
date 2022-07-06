@@ -28,10 +28,10 @@ type Event struct {
 
 type Business interface {
 	InsertComment(Core) (int, error)
-	// GetAllComment(limit, offset int) (data []Core, err error)
+	GetAllComment(idEvent, limit, offset int) (data []Core, err error)
 }
 
 type Data interface {
 	InsertComment(Core) (int, error)
-	// DataGetAllComment(limit, offset int) (data []Core, err error)
+	DataGetAllComment(idEvent, limit, offset int) (data []Core, err error)
 }

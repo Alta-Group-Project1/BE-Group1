@@ -22,8 +22,14 @@ type Event struct {
 
 type Business interface {
 	InsertAttendee(data Core) (row int, err error)
+	DeleteAttendee(id int) (row int, err error)
+	GetAttendeeByIdEvent(idEvent int) (data []Core, err error)
+	GetAttendeeByIdUser(idUser int) (data []Core, err error)
 }
 
 type Data interface {
 	PostAttendee(data Core) (row int, err error)
+	DeleteAttendee(id int) (row int, err error)
+	GetAttendeeByIdEvent(idEvent int) (data []Core, err error)
+	GetAttendeeByIdUser(idUser int) (data []Core, err error)
 }

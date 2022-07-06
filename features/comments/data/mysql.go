@@ -28,3 +28,12 @@ func (repo *mysqlCommentRepository) InsertComment(input comments.Core) (int, err
 	}
 	return int(comment.RowsAffected), nil
 }
+
+func (repo *mysqlCommentRepository) DataGetAllComment(idEvent, limit, offset int) (data []comments.Core, err error) {
+	var dataComment []Comment
+	result := repo.db.Preload("User").Preload("Event").Where("event_id = ?", idEvent).Limit(limit).Offset(offset).Find(&dataComment)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return toCoreList(dataComment), nil
+}
