@@ -3,7 +3,6 @@ package business
 import (
 	"altaproject3/features/events"
 	"errors"
-	"fmt"
 )
 
 type eventUsecase struct {
@@ -18,16 +17,19 @@ func NewEventBusiness(evData events.Data) events.Business {
 
 func (uc *eventUsecase) GetAllEvent(limit, offset int) (resp []events.Core, totalPage int, err error) {
 	resp, err = uc.eventData.SelectAllEvent(limit, offset)
-	totalData, _ := uc.eventData.CountEventData()
-	if limit == 0 {
-		limit = totalData
-	}
-	if totalData%limit != 0 {
-		totalPage = (totalData / limit) + 1
+	totalData, errCount := uc.eventData.CountEventData()
+	if errCount != nil {
+		totalPage = 0
 	} else {
-		totalPage = totalData / limit
+		if limit == 0 {
+			limit = totalData
+		}
+		if totalData%limit != 0 {
+			totalPage = (totalData / limit) + 1
+		} else {
+			totalPage = totalData / limit
+		}
 	}
-	fmt.Println(totalPage)
 	return resp, totalPage, err
 }
 
