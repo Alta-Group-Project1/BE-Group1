@@ -65,3 +65,12 @@ func (repo *mysqlEventRepository) UpdateEvent(idEvent int, data events.Core) (in
 	}
 	return int(result.RowsAffected), nil
 }
+
+func (repo *mysqlEventRepository) SelectEventByUserId(idUser, limit, offset int) ([]events.Core, error) {
+	var dataEvents []Event
+	result := repo.db.Preload("User").Where("user_id = ? ", idUser).Limit(limit).Offset(offset).Find(&dataEvents)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return toCoreList(dataEvents), nil
+}
