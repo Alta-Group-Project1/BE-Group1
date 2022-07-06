@@ -2,14 +2,13 @@ package response
 
 import (
 	attendees "altaproject3/features/attendees"
-	"time"
 )
 
 type Attendee struct {
-	ID        int       `json:"id" form:"id"`
-	CreatedAt time.Time `json:"created_at" form:"created_at"`
-	User      User
-	Event     Event
+	ID int `json:"id" form:"id"`
+	// CreatedAt time.Time `json:"created_at" form:"created_at"`
+	User  User
+	Event Event
 }
 
 type User struct {

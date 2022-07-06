@@ -2,7 +2,6 @@ package business
 
 import (
 	attendees "altaproject3/features/attendees"
-	"errors"
 )
 
 type attendeeUsecase struct {
@@ -16,9 +15,21 @@ func NewAttendeeBusiness(atData attendees.Data) attendees.Business {
 }
 
 func (uc *attendeeUsecase) InsertAttendee(input attendees.Core) (row int, err error) {
-	if input.User.ID == 0 || input.Event.ID == 0 {
-		return -1, errors.New("all input data must be filled")
-	}
 	row, err = uc.attendeeData.PostAttendee(input)
 	return row, err
+}
+
+func (uc *attendeeUsecase) DeleteAttendee(id int) (row int, err error) {
+	rowDel, err := uc.attendeeData.DeleteAttendee(id)
+	return rowDel, err
+}
+
+func (uc *attendeeUsecase) GetAttendeeByIdEvent(idEvent int) (resp []attendees.Core, err error) {
+	resp, err = uc.attendeeData.GetAttendeeByIdEvent(idEvent)
+	return resp, err
+}
+
+func (uc *attendeeUsecase) GetAttendeeByIdUser(idUser int) (resp []attendees.Core, err error) {
+	resp, err = uc.attendeeData.GetAttendeeByIdUser(idUser)
+	return resp, err
 }

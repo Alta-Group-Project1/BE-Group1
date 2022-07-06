@@ -18,9 +18,9 @@ func New(presenter factory.Presenter) *echo.Echo {
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.POST("users", presenter.UserPresenter.AddUser)
 	e.POST("login", presenter.UserPresenter.Login)
-	e.PUT("users/:id", presenter.UserPresenter.EditData, middlewares.JWTMiddleware())
-	e.GET("users/:id", presenter.UserPresenter.GetUser, middlewares.JWTMiddleware())
-	e.DELETE("users/:id", presenter.UserPresenter.DeleteDataUser, middlewares.JWTMiddleware())
+	e.PUT("users", presenter.UserPresenter.EditData, middlewares.JWTMiddleware())
+	e.GET("users", presenter.UserPresenter.GetUser, middlewares.JWTMiddleware())
+	e.DELETE("users", presenter.UserPresenter.DeleteDataUser, middlewares.JWTMiddleware())
 
 	e.GET("events", presenter.EventPresenter.GetAllEvent)
 	e.GET("events/:idEvent", presenter.EventPresenter.GetDetailEvent)
@@ -33,7 +33,10 @@ func New(presenter factory.Presenter) *echo.Echo {
 	e.GET("/comments/:idEvent", presenter.UserPresenter.Login)
 
 	// Attendees
-	e.POST("/attendees/:idEvent", presenter.AttendeePresenter.InsertAttendee)
+	e.DELETE("attendees/:idAttendee", presenter.AttendeePresenter.DeleteDataAttendee, middlewares.JWTMiddleware())
+	e.POST("/attendees/events/:idEvent", presenter.AttendeePresenter.InsertAttendee, middlewares.JWTMiddleware())
+	e.GET("/attendees/event/:idEvent", presenter.AttendeePresenter.GetAttendeeIdEvent, middlewares.JWTMiddleware())
+	e.GET("/attendees/users", presenter.AttendeePresenter.GetAttendeeIdUser, middlewares.JWTMiddleware())
 
 	return e
 }

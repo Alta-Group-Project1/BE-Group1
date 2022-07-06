@@ -9,7 +9,6 @@ import (
 	"fmt"
 
 	"net/http"
-	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -85,11 +84,11 @@ func (h *UserHandler) EditData(c echo.Context) error {
 	if errToken != nil {
 		c.JSON(http.StatusBadRequest, _helper.ResponseFailed("invalid token"))
 	}
-	id := c.Param("id")
-	idUser, errId := strconv.Atoi(id)
-	if errId != nil {
-		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("failed to recognized ID"))
-	}
+	// id := c.Param("id")
+	// idUser, errId := strconv.Atoi(id)
+	// if errId != nil {
+	// 	return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("failed to recognized ID"))
+	// }
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, _helper.ResponseFailed("unauthorized"))
 	}
@@ -99,48 +98,6 @@ func (h *UserHandler) EditData(c echo.Context) error {
 	email := c.FormValue("email")
 	phoneNumber := c.FormValue("phone_number")
 	address := c.FormValue("address")
-
-	// var storageClient *storage.Client
-	// bucket := os.Getenv("DB_BUCKET")
-	// ctx := appengine.NewContext(c.Request())
-	// storageClient, err := storage.NewClient(ctx, option.WithCredentialsFile("keys.json"))
-	// if err != nil {
-	// 	return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("misssing credentials file"))
-	// }
-	// file, err := c.FormFile("image_url")
-	// if err != nil {
-	// 	return err
-	// }
-	// if file.Size > 1024*1024 {
-	// 	return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("The uploaded image is too big. Please use an image less than 1MB in size"))
-	// }
-	// src, err := file.Open()
-	// if err != nil {
-	// 	return err
-	// }
-	// defer src.Close()
-	// if file.Filename[len(file.Filename)-3:] != "jpg" && file.Filename[len(file.Filename)-3:] != "png" {
-	// 	if file.Filename[len(file.Filename)-4:] != "jpeg" {
-	// 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("The provided file format is not allowed. Please upload a JPG or JPEG or PNG image"))
-	// 	}
-	// }
-
-	// sw := storageClient.Bucket(bucket).Object(file.Filename).NewWriter(ctx)
-
-	// if _, err := io.Copy(sw, src); err != nil {
-	// 	return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-	// 		"message": err,
-	// 	})
-	// }
-	// if err := sw.Close(); err != nil {
-	// 	return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-	// 		"message": err,
-	// 	})
-	// }
-	// u, err := url.Parse("https://storage.googleapis.com/" + bucket + "/" + sw.Attrs().Name)
-	// if err != nil {
-	// 	return err
-	// }
 
 	link, report, err := _helper.AddImageUser(c)
 	if err != nil {
@@ -156,7 +113,7 @@ func (h *UserHandler) EditData(c echo.Context) error {
 		ImageURL:    link,
 	}
 
-	result, err := h.userBusiness.UpdateDataUser(idUser, _requestUser.ToCore(user))
+	result, err := h.userBusiness.UpdateDataUser(idToken, _requestUser.ToCore(user))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("failed to update data"))
 	}
@@ -176,18 +133,15 @@ func (h *UserHandler) GetUser(c echo.Context) error {
 	if errToken != nil {
 		c.JSON(http.StatusBadRequest, _helper.ResponseFailed("invalid token"))
 	}
-	id := c.Param("id")
-	idnya, errId := strconv.Atoi(id)
-	if errId != nil {
-		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id not recognize"))
-	}
+	// id := c.Param("id")
+	// idnya, errId := strconv.Atoi(id)
+	// if errId != nil {
+	// 	return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id not recognize"))
+	// }
 	if idToken == 0 {
 		return c.JSON(http.StatusUnauthorized, _helper.ResponseFailed("unauthorized"))
 	}
-	if errId != nil {
-		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("failed to recognized ID"))
-	}
-	result, err := h.userBusiness.SelectUser(idnya)
+	result, err := h.userBusiness.SelectUser(idToken)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed to get data user"))
 	}
@@ -199,15 +153,15 @@ func (h *UserHandler) DeleteDataUser(c echo.Context) error {
 	if errDel != nil {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("invalid token"))
 	}
-	id := c.Param("id")
-	idDel, errId := strconv.Atoi(id)
-	if errId != nil {
-		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id not recognize"))
-	}
+	// id := c.Param("id")
+	// idDel, errId := strconv.Atoi(id)
+	// if errId != nil {
+	// 	return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id not recognize"))
+	// }
 	if idTok == 0 {
 		return c.JSON(http.StatusUnauthorized, _helper.ResponseFailed("Unauthorized"))
 	}
-	_, err := h.userBusiness.DeleteUser(idDel)
+	_, err := h.userBusiness.DeleteUser(idTok)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed to delete user"))
 	}
