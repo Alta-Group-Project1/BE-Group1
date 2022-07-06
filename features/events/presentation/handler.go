@@ -28,11 +28,15 @@ func (h *EventHandler) GetAllEvent(c echo.Context) error {
 	offset := c.QueryParam("offset")
 	limitint, _ := strconv.Atoi(limit)
 	offsetint, _ := strconv.Atoi(offset)
-	result, err := h.eventBusiness.GetAllEvent(limitint, offsetint)
+	result, totalPage, err := h.eventBusiness.GetAllEvent(limitint, offsetint)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.ResponseFailed("failed to get all data"))
 	}
-	return c.JSON(http.StatusOK, helper.ResponseSuccesWithData("success to get all data", _responseEvent.FromCoreList(result)))
+	var resp = map[string]interface{}{
+		"data":       _responseEvent.FromCoreList(result),
+		"total_page": totalPage,
+	}
+	return c.JSON(http.StatusOK, helper.ResponseSuccesWithData("success to get all data", resp))
 }
 
 func (h *EventHandler) GetDetailEvent(c echo.Context) error {
