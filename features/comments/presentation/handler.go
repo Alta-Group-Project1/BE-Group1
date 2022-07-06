@@ -6,7 +6,6 @@ import (
 	_helper "altaproject3/helper"
 	"altaproject3/middlewares"
 	"net/http"
-	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -22,15 +21,15 @@ func NewCommentHandler(business comments.Business) *CommentHandler {
 }
 
 func (h *CommentHandler) AddComment(c echo.Context) error {
-	id := c.Param("idEvent")
-	convert, _ := strconv.Atoi(id)
+	// id := c.Param("idEvent")
+	// convert, _ := strconv.Atoi(id)
 	idToken, errToken := middlewares.ExtractToken(c)
 	if errToken != nil {
 		c.JSON(http.StatusBadRequest, _helper.ResponseFailed("invalid token"))
 	}
 	var dataComment = _requestComment.Comment{
-		UserID:  idToken,
-		EventID: convert,
+		UserID: idToken,
+		// EventID: convert,
 	}
 	errBind := c.Bind(&dataComment)
 	if errBind != nil {
