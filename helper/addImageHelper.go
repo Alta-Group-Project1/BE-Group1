@@ -5,8 +5,10 @@ import (
 	"io"
 	"net/url"
 	"os"
+	"path"
 
 	"cloud.google.com/go/storage"
+	"github.com/gofrs/uuid"
 	"github.com/labstack/echo/v4"
 	"google.golang.org/api/option"
 	"google.golang.org/appengine"
@@ -54,7 +56,8 @@ func AddImageEvent(c echo.Context) (link string, message map[string]interface{},
 			}
 		}
 
-		sw := storageClient.Bucket(bucket).Object(file.Filename).NewWriter(ctx)
+		name := uuid.Must(uuid.NewV4()).String() + path.Ext(file.Filename)
+		sw := storageClient.Bucket(bucket).Object(name).NewWriter(ctx)
 
 		if _, err := io.Copy(sw, src); err != nil {
 			return "", map[string]interface{}{
@@ -124,7 +127,8 @@ func AddImageUser(c echo.Context) (link string, message map[string]interface{}, 
 			}
 		}
 
-		sw := storageClient.Bucket(bucket).Object(file.Filename).NewWriter(ctx)
+		name := uuid.Must(uuid.NewV4()).String() + path.Ext(file.Filename)
+		sw := storageClient.Bucket(bucket).Object(name).NewWriter(ctx)
 
 		if _, err := io.Copy(sw, src); err != nil {
 			return "", map[string]interface{}{
