@@ -143,6 +143,17 @@ func TestUpdateEvent(t *testing.T) {
 
 }
 
-func TestGeEventOwnByUser(t *testing.T) {
-
+func TestGetEventOwnByUser(t *testing.T) {
+	t.Run("Test Get Event Own By User Success", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventData{})
+		result, err := eventBusiness.GetEventOwnByUser(1, 0, 0)
+		assert.Nil(t, err)
+		assert.Equal(t, 1, result[0].ID)
+	})
+	t.Run("Test Get Event Own By User Failed", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		result, err := eventBusiness.GetEventOwnByUser(1, 0, 0)
+		assert.NotNil(t, err)
+		assert.Nil(t, result)
+	})
 }
