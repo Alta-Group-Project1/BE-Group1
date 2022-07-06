@@ -28,3 +28,33 @@ func (repo *mysqlAttendeeRepository) PostAttendee(data attendees.Core) (int, err
 	}
 	return int(result.RowsAffected), nil
 }
+
+func (repo *mysqlAttendeeRepository) DeleteAttendee(id int) (int, error) {
+	// var data1 Attendee
+	tx := repo.db.Where("id = ?", id).Delete(&Attendee{})
+	if tx.Error != nil {
+		return 0, tx.Error
+	}
+	if tx.RowsAffected != 1 {
+		return 0, fmt.Errorf("failed to delete data")
+	}
+	return int(tx.RowsAffected), nil
+}
+
+func (repo *mysqlAttendeeRepository) GetAttendeeByIdEvent(idEvent int) ([]attendees.Core, error) {
+	var dataAttend []Attendee
+	tx := repo.db.Model(&Attendee{}).Preload("User").Preload("Event").Where("event_id = ?", idEvent).Find(&dataAttend)
+	if tx.Error != nil {
+		return []attendees.Core{}, tx.Error
+	}
+	return toCoreList(dataAttend), nil
+}
+
+func (repo *mysqlAttendeeRepository) GetAttendeeByIdUser(idUser int) ([]attendees.Core, error) {
+	var dataAttend []Attendee
+	result := repo.db.Model(&Attendee{}).Preload("User").Preload("Event").Where("user_id = ?", idUser).Find(&dataAttend)
+	if result.Error != nil {
+		return []attendees.Core{}, result.Error
+	}
+	return toCoreList(dataAttend), nil
+}
