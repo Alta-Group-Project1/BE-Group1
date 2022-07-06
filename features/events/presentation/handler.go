@@ -181,3 +181,22 @@ func (h *EventHandler) UpdateEvent(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, helper.ResponseSuccesNoData("success to update event"))
 }
+
+func (h *EventHandler) GeEventOwnByUser(c echo.Context) error {
+	idToken, errToken := middlewares.ExtractToken(c)
+	if errToken != nil {
+		c.JSON(http.StatusBadRequest, helper.ResponseFailed("invalid token"))
+	}
+	if idToken == 0 {
+		return c.JSON(http.StatusUnauthorized, helper.ResponseFailed("unauthorized"))
+	}
+	limit := c.QueryParam("limit")
+	offset := c.QueryParam("offset")
+	limitint, _ := strconv.Atoi(limit)
+	offsetint, _ := strconv.Atoi(offset)
+	result, err := h.eventBusiness.GeEventOwnByUser(idToken, limitint, offsetint)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.ResponseFailed("failed to get all data"))
+	}
+	return c.JSON(http.StatusOK, helper.ResponseSuccesWithData("success to get all data", _responseEvent.FromCoreList(result)))
+}
