@@ -22,3 +22,8 @@ func (cm *commentUsecase) InsertComment(data comments.Core) (row int, err error)
 	row, err = cm.commentData.InsertComment(data)
 	return row, err
 }
+
+func (cm *commentUsecase) GetAllComment(idEvent, limit, offset int) (data []comments.Core, err error) {
+	data, err = cm.commentData.DataGetAllComment(idEvent, limit, offset)
+	return data, err
+}
