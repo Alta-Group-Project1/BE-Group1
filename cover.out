@@ -6,6 +6,11 @@ altaproject3/features/attendees/business/usecase.go:22.8,25.3 2 1
 altaproject3/features/attendees/business/usecase.go:28.80,31.2 2 1
 altaproject3/features/attendees/business/usecase.go:33.97,36.2 2 1
 altaproject3/features/attendees/business/usecase.go:38.95,41.2 2 1
+altaproject3/features/comments/business/usecase.go:12.67,16.2 1 1
+altaproject3/features/comments/business/usecase.go:18.82,19.24 1 1
+altaproject3/features/comments/business/usecase.go:22.2,23.17 2 1
+altaproject3/features/comments/business/usecase.go:19.24,21.3 1 1
+altaproject3/features/comments/business/usecase.go:26.103,29.2 2 1
 altaproject3/features/events/business/usecase.go:12.59,16.2 1 1
 altaproject3/features/events/business/usecase.go:18.103,21.21 3 1
 altaproject3/features/events/business/usecase.go:33.2,33.29 1 1
@@ -27,7 +32,7 @@ altaproject3/features/events/business/usecase.go:62.102,65.2 2 1
 altaproject3/features/users/business/usecase.go:13.57,17.2 1 1
 altaproject3/features/users/business/usecase.go:19.74,20.145 1 1
 altaproject3/features/users/business/usecase.go:23.2,24.17 2 1
-altaproject3/features/users/business/usecase.go:20.145,22.3 1 0
+altaproject3/features/users/business/usecase.go:20.145,22.3 1 1
 altaproject3/features/users/business/usecase.go:27.106,30.2 2 1
 altaproject3/features/users/business/usecase.go:32.85,33.162 1 1
 altaproject3/features/users/business/usecase.go:36.2,37.17 2 1

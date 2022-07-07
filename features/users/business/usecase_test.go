@@ -87,6 +87,20 @@ func TestInsertUser(t *testing.T) {
 		assert.NotNil(t, err)
 		assert.Equal(t, 0, result)
 	})
+	t.Run("Test Insert Data Failed When Full Name Empty", func(t *testing.T) {
+		userBusiness := NewUserBusiness(mockUserDataFailed{})
+		newUser := users.Core{
+			UserName:    "Andri",
+			Email:       "andri@gmail.com",
+			Password:    "qwerty",
+			PhoneNumber: "081234",
+			Address:     "Jalan Urip",
+			ImageURL:    "profile.png",
+		}
+		result, err := userBusiness.InsertUser(newUser)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
 }
 
 func TestLoginUser(t *testing.T) {
