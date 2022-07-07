@@ -6,6 +6,7 @@ import (
 	_responseAttendees "altaproject3/features/attendees/presentation/response"
 	_helper "altaproject3/helper"
 	"altaproject3/middlewares"
+	"fmt"
 
 	"net/http"
 	"strconv"
@@ -80,6 +81,7 @@ func (h *AttendeeHandler) GetAttendeeIdEvent(c echo.Context) error {
 	}
 	id := c.Param("idEvent")
 	idEvnt, errId := strconv.Atoi(id)
+	fmt.Println(idEvnt)
 	if errId != nil {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id event recognize"))
 	}
