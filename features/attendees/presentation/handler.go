@@ -58,15 +58,15 @@ func (h *AttendeeHandler) DeleteDataAttendee(c echo.Context) error {
 	if errTkn != nil {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("invalid token"))
 	}
-	id := c.Param("idEvent")
-	idEvent, errId := strconv.Atoi(id)
+	id := c.Param("idAttendee")
+	idAt, errId := strconv.Atoi(id)
 	if errId != nil {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id not attendee recognize"))
 	}
 	if idTkn == 0 {
 		return c.JSON(http.StatusUnauthorized, _helper.ResponseFailed("Unauthorized"))
 	}
-	_, err := h.attendeeBusiness.DeleteAttendee(idEvent, idTkn)
+	_, err := h.attendeeBusiness.DeleteAttendee(idAt)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed to delete attendee"))
 	}
