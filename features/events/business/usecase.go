@@ -39,7 +39,7 @@ func (uc *eventUsecase) GetDetailEvent(idEvent int) (resp events.Core, err error
 }
 
 func (uc *eventUsecase) InsertNewEvent(input events.Core) (row int, err error) {
-	if input.EventName == "" || input.DateStart == "" || input.DateFinish == "" || input.StartAt == "" || input.FinishAt == "" || input.User.ID == 0 || input.Price == 0 || input.Capacity == 0 {
+	if input.EventName == "" || input.DateStart == "" || input.DateFinish == "" || input.StartAt == "" || input.FinishAt == "" || input.User.ID == 0 || input.Price == 0 || input.Capacity == 0 || input.Description == "" {
 		return -1, errors.New("all input data must be filled")
 	}
 	row, err = uc.eventData.InsertEvent(input)
@@ -52,7 +52,7 @@ func (uc *eventUsecase) DeleteEvent(idEvent int) (row int, err error) {
 }
 
 func (uc *eventUsecase) UpdateEvent(idEvent int, input events.Core) (row int, err error) {
-	if input.EventName == "" || input.DateStart == "" || input.DateFinish == "" || input.StartAt == "" || input.FinishAt == "" || input.User.ID == 0 || input.Price == 0 || input.Capacity == 0 {
+	if input.EventName == "" || input.DateStart == "" || input.DateFinish == "" || input.StartAt == "" || input.FinishAt == "" || input.User.ID == 0 || input.Price == 0 || input.Capacity == 0 || input.Description == "" {
 		return -1, errors.New("all input data must be filled")
 	}
 	row, err = uc.eventData.UpdateEvent(idEvent, input)
