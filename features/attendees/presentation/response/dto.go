@@ -7,8 +7,8 @@ import (
 type Attendee struct {
 	ID int `json:"id" form:"id"`
 	// CreatedAt time.Time `json:"created_at" form:"created_at"`
-	User  User
-	Event Event
+	User  User  `json:"user" form:"user"`
+	Event Event `json:"event" form:"event"`
 }
 
 type User struct {
