@@ -43,7 +43,7 @@ func (h *AttendeeHandler) InsertAttendee(c echo.Context) error {
 	}
 	row, err := h.attendeeBusiness.InsertAttendee(_requestAttendees.ToCore(dataAttendee))
 	if row == 0 {
-		c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed to insert attendee"))
+		return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed to insert attendee"))
 	}
 	if row == -1 {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed(err.Error()))
