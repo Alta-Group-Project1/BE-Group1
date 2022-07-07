@@ -19,8 +19,8 @@ func (uc *attendeeUsecase) InsertAttendee(input attendees.Core) (row int, err er
 	return row, err
 }
 
-func (uc *attendeeUsecase) DeleteAttendee(id int) (row int, err error) {
-	rowDel, err := uc.attendeeData.DeleteAttendee(id)
+func (uc *attendeeUsecase) DeleteAttendee(idEvent int, idUser int) (row int, err error) {
+	rowDel, err := uc.attendeeData.DeleteAttendee(idEvent, idUser)
 	return rowDel, err
 }
 
