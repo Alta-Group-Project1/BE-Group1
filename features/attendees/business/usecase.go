@@ -2,6 +2,7 @@ package business
 
 import (
 	attendees "altaproject3/features/attendees"
+	"fmt"
 )
 
 type attendeeUsecase struct {
@@ -15,12 +16,13 @@ func NewAttendeeBusiness(atData attendees.Data) attendees.Business {
 }
 
 func (uc *attendeeUsecase) InsertAttendee(input attendees.Core) (row int, err error) {
-	row1, _ := uc.attendeeData.CheckEvent(input.User.ID, input.Event.ID)
-	if row1 != 1 {
-		// , fmt.Errorf("failed to invite")
+	check, _ := uc.attendeeData.CheckAttend(input.User.ID, input.Event.ID)
+	if check == 1 {
+		return -1, fmt.Errorf("already join this event")
+	} else {
+		row, err = uc.attendeeData.PostAttendee(input)
+		return row, err
 	}
-	row, err = uc.attendeeData.PostAttendee(input)
-	return row, err
 }
 
 func (uc *attendeeUsecase) DeleteAttendee(id, idUser int) (row int, err error) {
