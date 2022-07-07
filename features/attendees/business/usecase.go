@@ -15,6 +15,10 @@ func NewAttendeeBusiness(atData attendees.Data) attendees.Business {
 }
 
 func (uc *attendeeUsecase) InsertAttendee(input attendees.Core) (row int, err error) {
+	row1, _ := uc.attendeeData.CheckEvent(input.User.ID, input.Event.ID)
+	if row1 != 1 {
+		// , fmt.Errorf("failed to invite")
+	}
 	row, err = uc.attendeeData.PostAttendee(input)
 	return row, err
 }
