@@ -17,6 +17,7 @@ type User struct {
 	ID       int    `json:"id" form:"id"`
 	UserName string `json:"user_name" form:"user_name"`
 	FullName string `json:"full_name" form:"full_name"`
+	ImageURL string `json:"image_url" form:"image_url"`
 }
 
 type Event struct {
@@ -32,6 +33,7 @@ func FromCore(data comments.Core) Comment {
 			ID:       data.User.ID,
 			UserName: data.User.UserName,
 			FullName: data.User.FullName,
+			ImageURL: data.User.ImageURL,
 		},
 		Event: Event{
 			ID: data.Event.ID,
