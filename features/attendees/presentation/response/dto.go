@@ -17,8 +17,8 @@ type User struct {
 }
 
 type Event struct {
-	ID       int    `json:"id" form:"id"`
-	UserName string `json:"user_name" form:"user_name"`
+	ID        int    `json:"id" form:"id"`
+	EventName string `json:"user_name" form:"user_name"`
 }
 
 func FromCore(data attendees.Core) Attendee {
@@ -29,8 +29,8 @@ func FromCore(data attendees.Core) Attendee {
 			UserName: data.User.UserName,
 		},
 		Event: Event{
-			ID:       data.Event.ID,
-			UserName: data.Event.EventName,
+			ID:        data.Event.ID,
+			EventName: data.Event.EventName,
 		},
 	}
 }
