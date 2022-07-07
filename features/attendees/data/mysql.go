@@ -59,11 +59,13 @@ func (repo *mysqlAttendeeRepository) GetAttendeeByIdUser(idUser int) ([]attendee
 	return toCoreList(dataAttend), nil
 }
 
-func (repo *mysqlAttendeeRepository) CheckEvent(idUser, idEvent int) (int, error) {
-	var attend []Attendee
-	result := repo.db.Model(Attendee{}).Preload("User").Preload("Event").Where("user_id = ? AND event_id = ?", idUser).Find(&attend)
+func (repo *mysqlAttendeeRepository) CheckAttend(idUser, idEvent int) (int, error) {
+	result := repo.db.Where("user_id = ? AND event_id = ?", idUser, idEvent).First(&Attendee{})
 	if result.Error != nil {
-		return 0, result.Error
+		return -1, result.Error
 	}
-	return 1, nil
+	if result.RowsAffected != 1 {
+		return -1, result.Error
+	}
+	return int(result.RowsAffected), nil
 }

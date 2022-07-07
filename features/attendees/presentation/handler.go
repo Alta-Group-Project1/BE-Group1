@@ -42,12 +42,14 @@ func (h *AttendeeHandler) InsertAttendee(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("failed to attendee"))
 	}
 	row, err := h.attendeeBusiness.InsertAttendee(_requestAttendees.ToCore(dataAttendee))
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed insert attendee"))
-	}
 	if row == 0 {
 		c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed to insert attendee"))
-
+	}
+	if row == -1 {
+		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed(err.Error()))
+	}
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed insert attendee"))
 	}
 	return c.JSON(http.StatusOK, _helper.ResponseSuccesNoData("Success to insert Attendee"))
 }
