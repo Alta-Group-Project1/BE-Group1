@@ -14,6 +14,7 @@ type Attendee struct {
 type User struct {
 	ID       int    `json:"id" form:"id"`
 	UserName string `json:"user_name" form:"user_name"`
+	ImageURL string `json:"image_url" form:"image_url"`
 }
 
 type Event struct {
@@ -27,6 +28,7 @@ func FromCore(data attendees.Core) Attendee {
 		User: User{
 			ID:       data.User.ID,
 			UserName: data.User.UserName,
+			ImageURL: data.User.ImageURL,
 		},
 		Event: Event{
 			ID:        data.Event.ID,

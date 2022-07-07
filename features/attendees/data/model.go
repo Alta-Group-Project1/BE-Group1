@@ -17,6 +17,7 @@ type Attendee struct {
 type User struct {
 	gorm.Model
 	UserName string `json:"user_name" form:"user_name"`
+	ImageURL string `json:"image_url" form:"image_url"`
 	Attendee []Attendee
 }
 
@@ -32,6 +33,7 @@ func (data *Attendee) toCore() attendees.Core {
 		User: attendees.User{
 			ID:       int(data.User.ID),
 			UserName: data.User.UserName,
+			ImageURL: data.User.ImageURL,
 		},
 		Event: attendees.Event{
 			ID:        int(data.Event.ID),
