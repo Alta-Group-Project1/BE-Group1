@@ -33,4 +33,5 @@ type Data interface {
 	DeleteAttendee(id, idUser int) (row int, err error)
 	GetAttendeeByIdEvent(idEvent int) (data []Core, err error)
 	GetAttendeeByIdUser(idUser int) (data []Core, err error)
+	CheckEvent(idUser, idEvent int) (row int, err error)
 }
