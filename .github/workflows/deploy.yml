@@ -20,5 +20,6 @@ jobs:
             git pull origin main
             docker stop project3Container
             docker rm project3Container
+            docker rmi project3-images
             docker build -t project3-images:latest .
             docker run -d -p 80:80 -e DB_Username=${{ secrets.DB_USERNAME }} -e DB_Password=${{ secrets.DB_PASSWORD }} -e DB_Port=${{ secrets.DB_PORT }} -e DB_Host=${{ secrets.DB_HOST }} -e DB_Name=${{ secrets.DB_NAME }} -e DB_BUCKET=${{ secrets.DB_BUCKET }} -e DB_SECRET=${{ secrets.DB_SECRET }} --name project3Container project3-images:latest
