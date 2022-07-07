@@ -29,9 +29,9 @@ func (repo *mysqlAttendeeRepository) PostAttendee(data attendees.Core) (int, err
 	return int(result.RowsAffected), nil
 }
 
-func (repo *mysqlAttendeeRepository) DeleteAttendee(id int) (int, error) {
-	// var data1 Attendee
-	tx := repo.db.Where("id = ?", id).Delete(&Attendee{})
+func (repo *mysqlAttendeeRepository) DeleteAttendee(idEvent int, idUser int) (int, error) {
+	var data1 Attendee
+	tx := repo.db.Where("event_id = ? AND user_id = ?", idEvent, idUser).Delete(&data1)
 	if tx.Error != nil {
 		return 0, tx.Error
 	}
