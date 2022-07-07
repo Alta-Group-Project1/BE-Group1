@@ -15,6 +15,7 @@ type User struct {
 	ID       int
 	UserName string
 	FullName string
+	ImageURL string
 }
 
 type Event struct {
