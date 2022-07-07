@@ -26,22 +26,22 @@ func (h *CommentHandler) AddComment(c echo.Context) error {
 
 	idToken, errToken := middlewares.ExtractToken(c)
 	if errToken != nil {
-		c.JSON(http.StatusBadRequest, _helper.ResponseFailed("invalid token"))
+		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("invalid token"))
 	}
 	var dataComment = _requestComment.Comment{
 		UserID: idToken,
 	}
 	errBind := c.Bind(&dataComment)
 	if errBind != nil {
-		c.JSON(http.StatusBadRequest, _helper.ResponseFailed("Failed to Bind data"))
+		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("Failed to Bind data"))
 	}
 	var row, err = h.commentBusiness.InsertComment(_requestComment.ToCore(dataComment))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed to insert comment"))
+		return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed to insert comment"))
 
 	}
 	if row == 0 {
-		c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed to insert comment"))
+		return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed to insert comment"))
 
 	}
 	return c.JSON(http.StatusOK, _helper.ResponseSuccesNoData("succes to insert comment"))
@@ -51,7 +51,7 @@ func (h *CommentHandler) GetAllComment(c echo.Context) error {
 	idToken, errToken := middlewares.ExtractToken(c)
 
 	if errToken != nil {
-		c.JSON(http.StatusBadRequest, _helper.ResponseFailed("invalid token"))
+		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("invalid token"))
 	}
 
 	if idToken == 0 {
