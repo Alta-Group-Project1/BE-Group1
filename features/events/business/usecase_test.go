@@ -333,6 +333,27 @@ func TestInsertNewEvent(t *testing.T) {
 		assert.NotNil(t, err)
 		assert.Equal(t, -1, result)
 	})
+	t.Run("Test Insert Event Failed When Description is Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:  "Konser Berbakti",
+			DateStart:  "19/06/2022",
+			DateFinish: "19/06/2022",
+			StartAt:    "15.00",
+			FinishAt:   "21.00",
+			Price:      15000,
+			Address:    "Lapangan Kridosono",
+			Capacity:   1500,
+			ImageURL:   "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.InsertNewEvent(data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
 }
 
 func TestDeleteEvent(t *testing.T) {
@@ -542,7 +563,7 @@ func TestUpdateEvent(t *testing.T) {
 		assert.NotNil(t, err)
 		assert.Equal(t, -1, result)
 	})
-	t.Run("Test Update Event Failed When Capacity", func(t *testing.T) {
+	t.Run("Test Update Event Failed When Capacity Empty", func(t *testing.T) {
 		eventBusiness := NewEventBusiness(mockEventDataFailed{})
 		var data = events.Core{
 			EventName:   "Konser Berbakti",
@@ -554,6 +575,27 @@ func TestUpdateEvent(t *testing.T) {
 			Address:     "Lapangan Kridosono",
 			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
 			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.UpdateEvent(1, data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Update Event Failed When Description Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:  "Konser Berbakti",
+			DateStart:  "19/06/2022",
+			DateFinish: "19/06/2022",
+			StartAt:    "15.00",
+			FinishAt:   "21.00",
+			Price:      15000,
+			Address:    "Lapangan Kridosono",
+			Capacity:   1500,
+			ImageURL:   "storage.cloud.com/event-bersama.jpeg",
 			User: events.User{
 				ID:       1,
 				FullName: "Andi Wibawa",
