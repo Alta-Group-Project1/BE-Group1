@@ -57,7 +57,7 @@ func (h *AttendeeHandler) DeleteDataAttendee(c echo.Context) error {
 	if errTkn != nil {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("invalid token"))
 	}
-	id := c.Param("idAttendee")
+	id := c.Param("idEvent")
 	idAt, errId := strconv.Atoi(id)
 	if errId != nil {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id not attendee recognize"))
