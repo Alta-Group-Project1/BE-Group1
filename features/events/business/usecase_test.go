@@ -121,7 +121,218 @@ func TestGetDetailEvent(t *testing.T) {
 }
 
 func TestInsertNewEvent(t *testing.T) {
-
+	t.Run("Test Insert Event Success", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventData{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.InsertNewEvent(data)
+		assert.Nil(t, err)
+		assert.Equal(t, 1, result)
+	})
+	t.Run("Test Insert Event Failed", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.InsertNewEvent(data)
+		assert.NotNil(t, err)
+		assert.Equal(t, 0, result)
+	})
+	t.Run("Test Insert Event Failed When Event Name Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.InsertNewEvent(data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Insert Event Failed When Date Start Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.InsertNewEvent(data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Insert Event Failed When Date Finish Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.InsertNewEvent(data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Insert Event Failed When Start At Empty ", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.InsertNewEvent(data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Insert Event Failed When Finish At Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.InsertNewEvent(data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Insert Event Failed When User ID Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.InsertNewEvent(data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Insert Event Failed When Price Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.InsertNewEvent(data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Insert Event Failed When Capacity is Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.InsertNewEvent(data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
 }
 
 func TestDeleteEvent(t *testing.T) {
@@ -140,7 +351,218 @@ func TestDeleteEvent(t *testing.T) {
 }
 
 func TestUpdateEvent(t *testing.T) {
-
+	t.Run("Test Update Event Success", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventData{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.UpdateEvent(1, data)
+		assert.Nil(t, err)
+		assert.Equal(t, 1, result)
+	})
+	t.Run("Test Update Event Failed", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.UpdateEvent(1, data)
+		assert.NotNil(t, err)
+		assert.Equal(t, 0, result)
+	})
+	t.Run("Test Update Event Failed When Event Name Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.UpdateEvent(1, data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Update Event Failed When Date Start Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.UpdateEvent(1, data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Update Event Failed When Data Finish Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.UpdateEvent(1, data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Update Event Failed When Start At Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.UpdateEvent(1, data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Update Event Failed When Finish At Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.UpdateEvent(1, data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Update Event Failed When User ID Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.UpdateEvent(1, data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Update Event Failed When Price Empty", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Address:     "Lapangan Kridosono",
+			Capacity:    1500,
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.UpdateEvent(1, data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+	t.Run("Test Update Event Failed When Capacity", func(t *testing.T) {
+		eventBusiness := NewEventBusiness(mockEventDataFailed{})
+		var data = events.Core{
+			EventName:   "Konser Berbakti",
+			DateStart:   "19/06/2022",
+			DateFinish:  "19/06/2022",
+			StartAt:     "15.00",
+			FinishAt:    "21.00",
+			Price:       15000,
+			Address:     "Lapangan Kridosono",
+			Description: "Konser dalam rangka membantu menggalang dana untuk panti asuhan",
+			ImageURL:    "storage.cloud.com/event-bersama.jpeg",
+			User: events.User{
+				ID:       1,
+				FullName: "Andi Wibawa",
+			},
+		}
+		result, err := eventBusiness.UpdateEvent(1, data)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
 }
 
 func TestGetEventOwnByUser(t *testing.T) {
