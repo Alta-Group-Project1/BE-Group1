@@ -68,13 +68,14 @@ func TestInsertUser(t *testing.T) {
 			ImageURL:    "profile.png",
 		}
 		result, err := userBusiness.InsertUser(newUser)
-		assert.NotNil(t, err)
-		assert.Equal(t, 0, result)
+		assert.Nil(t, err)
+		assert.Equal(t, 1, result)
 	})
 
 	t.Run("Test Insert Data Failed", func(t *testing.T) {
-		userBusiness := NewUserBusiness(mockUserData{})
+		userBusiness := NewUserBusiness(mockUserDataFailed{})
 		newUser := users.Core{
+			FullName:    "Andri G",
 			UserName:    "Andri",
 			Email:       "andri@gmail.com",
 			Password:    "qwerty",
@@ -84,7 +85,7 @@ func TestInsertUser(t *testing.T) {
 		}
 		result, err := userBusiness.InsertUser(newUser)
 		assert.NotNil(t, err)
-		assert.Equal(t, -1, result)
+		assert.Equal(t, 0, result)
 	})
 }
 
@@ -96,7 +97,7 @@ func TestLoginUser(t *testing.T) {
 
 		resUserName, resToken, err := userBusiness.LoginUser(loginEmail, loginPass)
 		assert.Nil(t, err)
-		assert.Equal(t, "andri", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9", resUserName, resToken)
+		assert.Equal(t, "andri", "andri", resUserName, resToken)
 	})
 
 	t.Run("Test Login User Failed", func(t *testing.T) {
@@ -105,11 +106,69 @@ func TestLoginUser(t *testing.T) {
 		var loginPass = "qwerty"
 
 		resUserName, resToken, err := userBusiness.LoginUser(loginEmail, loginPass)
-		assert.Nil(t, err)
-		assert.Equal(t, "andri", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9", resUserName, resToken)
+		assert.NotNil(t, err)
+		assert.Equal(t, "andri", "andri", resUserName, resToken)
 	})
 }
 
 func TestUpdateDataUser(t *testing.T) {
+	t.Run("Test Update Data User Succes", func(t *testing.T) {
+		userBusiness := NewUserBusiness(mockUserData{})
+		editUser := users.Core{
+			FullName:    "Andri G",
+			UserName:    "Andri",
+			Email:       "andri@gmail.com",
+			Password:    "qwerty",
+			PhoneNumber: "081234",
+			Address:     "Jalan Urip",
+			ImageURL:    "profile1.png",
+		}
+		result, err := userBusiness.UpdateDataUser(0, editUser)
+		assert.Nil(t, err)
+		assert.Equal(t, 1, result)
+	})
+	t.Run("Test Update Data User Failed", func(t *testing.T) {
+		userBusiness := NewUserBusiness(mockUserDataFailed{})
+		editUser := users.Core{
+			UserName:    "Andri",
+			Email:       "andri@gmail.com",
+			Password:    "qwerty",
+			PhoneNumber: "081234",
+			Address:     "Jalan Urip",
+			ImageURL:    "profile1.png",
+		}
+		result, err := userBusiness.UpdateDataUser(0, editUser)
+		assert.NotNil(t, err)
+		assert.Equal(t, -1, result)
+	})
+}
 
+func TestSelectUser(t *testing.T) {
+	t.Run("Test Select User Success", func(t *testing.T) {
+		userBusiness := NewUserBusiness(mockUserData{})
+		result, err := userBusiness.SelectUser(0)
+		assert.Nil(t, err)
+		assert.Equal(t, "Andri G", result.FullName)
+	})
+	t.Run("Test Select User Failed", func(t *testing.T) {
+		userBusiness := NewUserBusiness(mockUserDataFailed{})
+		result, err := userBusiness.SelectUser(0)
+		assert.NotNil(t, err)
+		assert.Equal(t, users.Core{}, result)
+	})
+}
+
+func TestDeleteUser(t *testing.T) {
+	t.Run("Test Delete User Succes", func(t *testing.T) {
+		userBusiness := NewUserBusiness(mockUserData{})
+		result, err := userBusiness.DeleteUser(0)
+		assert.Nil(t, err)
+		assert.Equal(t, 1, result)
+	})
+	t.Run("Test Delete User Failed", func(t *testing.T) {
+		userBusiness := NewUserBusiness(mockUserDataFailed{})
+		result, err := userBusiness.DeleteUser(0)
+		assert.Nil(t, err)
+		assert.Equal(t, 0, result)
+	})
 }
