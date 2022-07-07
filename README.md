@@ -96,7 +96,7 @@ Fitur attendees merupakan fitur untuk users bisa bergabung untuk mengikuti event
 | POST | /attendees/events | idEvent | YES | Membuat daftar event yang akan diikuti/join event |
 | GET | /attendees/events| idEvent | YES | Mendapatkan informasi user yang mengikuti berdasar event yang sama yang akan diikuti |
 | DELETE | /attendees/events | idEvent | YES | Meng-cancel event yang akan diikuti apabila berubah pikiran |
-| GET | /attendees/USERS | - | YES | Mendapatkan informasi event apa saja yang akan diikuti berdasarkan post attenddes event yang telah dilakukan |
+| GET | /attendees/users | - | YES | Mendapatkan informasi event apa saja yang akan diikuti berdasarkan post attenddes event yang telah dilakukan |
 
 </details>
 
