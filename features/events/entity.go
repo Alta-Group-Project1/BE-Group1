@@ -25,9 +25,9 @@ type User struct {
 }
 
 type Business interface {
-	GetAllEvent(limit, offset int) (data []Core, err error)
+	GetAllEvent(limit, offset int) (data []Core, totalPage int, err error)
 	GetDetailEvent(idEvent int) (data Core, err error)
-	GeEventOwnByUser(idUser, limit, offset int) (data []Core, err error)
+	GetEventOwnByUser(idUser, limit, offset int) (data []Core, err error)
 	InsertNewEvent(data Core) (row int, err error)
 	DeleteEvent(idEvent int) (row int, err error)
 	UpdateEvent(idEvent int, data Core) (row int, err error)
@@ -40,4 +40,5 @@ type Data interface {
 	InsertEvent(data Core) (row int, err error)
 	DeleteEvent(idEvent int) (row int, err error)
 	UpdateEvent(idEvent int, data Core) (row int, err error)
+	CountEventData() (count int, err error)
 }
