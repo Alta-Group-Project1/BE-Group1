@@ -62,7 +62,7 @@ func (h *AttendeeHandler) DeleteDataAttendee(c echo.Context) error {
 	id := c.Param("idEvent")
 	idAt, errId := strconv.Atoi(id)
 	if errId != nil {
-		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id not attendee recognize"))
+		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id attendee not recognize"))
 	}
 	if idTkn == 0 {
 		return c.JSON(http.StatusUnauthorized, _helper.ResponseFailed("Unauthorized"))
@@ -82,7 +82,7 @@ func (h *AttendeeHandler) GetAttendeeIdEvent(c echo.Context) error {
 	id := c.Param("idEvent")
 	idEvnt, errId := strconv.Atoi(id)
 	if errId != nil {
-		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id event recognize"))
+		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id event not recognize"))
 	}
 	if idTk == 0 {
 		return c.JSON(http.StatusUnauthorized, _helper.ResponseFailed("Unauthorized"))
