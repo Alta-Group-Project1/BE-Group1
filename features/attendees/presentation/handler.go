@@ -6,7 +6,6 @@ import (
 	_responseAttendees "altaproject3/features/attendees/presentation/response"
 	_helper "altaproject3/helper"
 	"altaproject3/middlewares"
-	"fmt"
 
 	"net/http"
 	"strconv"
@@ -34,7 +33,6 @@ func (h *AttendeeHandler) InsertAttendee(c echo.Context) error {
 	}
 	id := c.Param("idEvent")
 	idEventInt, _ := strconv.Atoi(id)
-
 	var dataAttendee = _requestAttendees.Attendee{
 		UserID:  idToken,
 		EventID: idEventInt,
@@ -67,8 +65,8 @@ func (h *AttendeeHandler) DeleteDataAttendee(c echo.Context) error {
 	if idTkn == 0 {
 		return c.JSON(http.StatusUnauthorized, _helper.ResponseFailed("Unauthorized"))
 	}
-	_, err := h.attendeeBusiness.DeleteAttendee(idAt)
-	if err != nil {
+	row, _ := h.attendeeBusiness.DeleteAttendee(idAt, idTkn)
+	if row == 0 {
 		return c.JSON(http.StatusInternalServerError, _helper.ResponseFailed("failed to delete attendee"))
 	}
 	return c.JSON(http.StatusOK, _helper.ResponseSuccesNoData("success to delete attendee"))
@@ -81,7 +79,6 @@ func (h *AttendeeHandler) GetAttendeeIdEvent(c echo.Context) error {
 	}
 	id := c.Param("idEvent")
 	idEvnt, errId := strconv.Atoi(id)
-	fmt.Println(idEvnt)
 	if errId != nil {
 		return c.JSON(http.StatusBadRequest, _helper.ResponseFailed("id event recognize"))
 	}
